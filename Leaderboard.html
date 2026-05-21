@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>排行榜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#162447">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/pixel-theme.css">
+</head>
+<body class="px-app">
+  <main class="px-page">
+    <div class="px-page__top">
+      <h1>本地排行榜</h1>
+      <div class="px-page__actions">
+        <a class="px-btn px-btn--alt" href="Snake.html">返回游戏</a>
+      </div>
+    </div>
+    <div id="leaderboard-list" class="px-grid" aria-label="排行榜列表"></div>
+  </main>
+
+  <script src="assets/storage.js"></script>
+  <script src="assets/game-data.js"></script>
+  <script src="assets/ui-pages.js"></script>
+  <script>
+    UIPages.renderLeaderboard();
+  </script>
+</body>
+</html>
+

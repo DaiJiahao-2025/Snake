@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>商店</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#162447">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/pixel-theme.css">
+</head>
+<body class="px-app">
+  <div id="toast-host" class="px-toast-host" aria-live="polite"></div>
+  <main class="px-page">
+    <div class="px-page__top">
+      <h1>商店</h1>
+      <div class="px-page__actions">
+        <a class="px-btn" href="SkinSelect.html">皮肤</a>
+        <a class="px-btn" href="MapSelect.html">地图</a>
+        <a class="px-btn" href="LevelSelect.html">关卡</a>
+        <a class="px-btn px-btn--alt" href="Snake.html">返回游戏</a>
+      </div>
+    </div>
+
+    <section class="px-card" aria-label="货币">
+      <div class="currency">
+        ⭐ <span id="shop-stars">0</span>
+        🪙 <span id="shop-coins">0</span>
+        💎 <span id="shop-diamonds">0</span>
+      </div>
+      <div class="px-card__meta" style="margin-top:10px;">提示：道具会进入“库存”，可在游戏内快捷使用。</div>
+    </section>
+
+    <section class="px-card" aria-label="库存" style="margin-top:14px;">
+      <div class="px-card__title">库存</div>
+      <div class="px-card__meta" id="inventory-line"></div>
+    </section>
+
+    <section style="margin-top:14px;">
+      <div class="px-card__title" style="margin-left:6px;">商品</div>
+      <div id="shop-list" class="px-grid" aria-label="商品列表"></div>
+    </section>
+  </main>
+
+  <script src="assets/storage.js"></script>
+  <script src="assets/game-data.js"></script>
+  <script src="assets/ui-pages.js"></script>
+  <script>
+    StorageUtil.migrate();
+
+    function getInventory() {
+      const inv = StorageUtil.ensureObject("inventory", { shield: 0, boost: 0, multiplier: 0, magnet: 0 });
+      const shieldCount = StorageUtil.getNumber("shieldCount", 0);
+      if (Number.isFinite(shieldCount) && shieldCount !== inv.shield) {
+        inv.shield = shieldCount;
+        StorageUtil.saveJson("inventory", inv);
+      }
+      return inv;
+    }
+
+    function setInventory(inv) {
+      StorageUtil.saveJson("inventory", inv);
+      StorageUtil.setNumber("shieldCount", inv.shield || 0);
+    }
+
+    function updateCurrencyDisplay() {
+      document.getElementById('shop-stars').textContent = localStorage.getItem('shopStars') || '0';
+      document.getElementById('shop-coins').textContent = localStorage.getItem('shopCoins') || '0';
+      document.getElementById('shop-diamonds').textContent = localStorage.getItem('shopDiamonds') || '0';
+    }
+
+    function updateInventoryDisplay() {
+      const inv = getInventory();
+      document.getElementById("inventory-line").textContent =
+        `护盾×${inv.shield || 0}  |  疾行×${inv.boost || 0}  |  倍率×${inv.multiplier || 0}  |  磁铁×${inv.magnet || 0}`;
+    }
+
+    function unlockAchievement(id) {
+      const achievements = StorageUtil.ensureObject("achievements", {});
+      if (achievements[id]) return;
+      achievements[id] = Date.now();
+      StorageUtil.saveJson("achievements", achievements);
+      UIPages.toast(`成就解锁：${GameData.ACHIEVEMENTS.find(a => a.id === id)?.name || id}`);
+    }
+
+    function ensureUnlockSet(key, value) {
+      const list = StorageUtil.ensureSet(key, []);
+      if (!list.includes(value)) {
+        list.push(value);
+        StorageUtil.saveJson(key, list);
+        return true;
+      }
+      return false;
+    }
+
+    function buy(item) {
+      const coins = StorageUtil.getNumber("shopCoins", 0);
+      const diamonds = StorageUtil.getNumber("shopDiamonds", 0);
+      const stars = StorageUtil.getNumber("shopStars", 0);
+
+      const wallet = item.currency === "coins" ? coins : item.currency === "diamonds" ? diamonds : stars;
+      if (wallet < item.price) {
+        UIPages.toast("货币不足！");
+        return;
+      }
+
+      if (item.currency === "coins") StorageUtil.setNumber("shopCoins", coins - item.price);
+      if (item.currency === "diamonds") StorageUtil.setNumber("shopDiamonds", diamonds - item.price);
+      if (item.currency === "stars") StorageUtil.setNumber("shopStars", stars - item.price);
+
+      const inv = getInventory();
+      if (item.id === "shield" || item.id === "boost" || item.id === "multiplier" || item.id === "magnet") {
+        inv[item.id] = (inv[item.id] || 0) + 1;
+        setInventory(inv);
+        UIPages.toast(`购买成功：${item.name}`);
+      } else if (item.unlockMapId) {
+        const ok = ensureUnlockSet("unlockedMaps", item.unlockMapId);
+        if (ok) unlockAchievement("unlock_map");
+        UIPages.toast(ok ? `已解锁地图：${GameData.MAPS.find(m => m.id === item.unlockMapId)?.name || item.unlockMapId}` : "已拥有该地图");
+      } else {
+        UIPages.toast("购买成功！");
+      }
+
+      updateCurrencyDisplay();
+      updateInventoryDisplay();
+      renderShop();
+    }
+
+    function renderShop() {
+      const unlockedMaps = new Set(StorageUtil.ensureSet("unlockedMaps", ["meadow"]));
+      const list = document.getElementById("shop-list");
+      list.innerHTML = "";
+
+      for (const item of GameData.SHOP_ITEMS) {
+        const locked = Boolean(item.unlockMapId) && unlockedMaps.has(item.unlockMapId);
+        const title = document.createElement("div");
+        title.className = "px-card__title";
+        title.textContent = item.name;
+
+        const meta = document.createElement("div");
+        meta.className = "px-card__meta";
+        meta.textContent = `${item.desc}\n价格：${item.price} ${item.currency === "coins" ? "金币" : item.currency === "diamonds" ? "钻石" : "星星"}`;
+
+        const btn = document.createElement("button");
+        btn.className = locked ? "px-btn px-btn--alt" : "px-btn";
+        btn.textContent = locked ? "已拥有" : "购买";
+        if (locked) btn.setAttribute("disabled", "true");
+        btn.addEventListener("click", () => buy(item));
+
+        const actions = document.createElement("div");
+        actions.className = "px-card__actions";
+        actions.appendChild(btn);
+
+        const card = document.createElement("div");
+        card.className = "px-card";
+        card.appendChild(title);
+        card.appendChild(meta);
+        card.appendChild(actions);
+        list.appendChild(card);
+      }
+    }
+
+    updateCurrencyDisplay();
+    updateInventoryDisplay();
+    renderShop();
+  </script>
+</body>
+</html>
+

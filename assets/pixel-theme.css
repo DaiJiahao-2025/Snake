@@ -1,0 +1,747 @@
+/* Dungeon Crawler Pixel Theme */
+.px-app {
+  /* 1. CSS Variables - Earthy Dungeon Palette */
+  --px-bg0: #120f0d;
+  /* Deep cave darkness */
+  --px-bg1: #1a1614;
+  /* Dark stone */
+  --px-bg2: #2c2725;
+  /* Lighter stone */
+  --px-surface: #3a3532;
+  /* Stone slab */
+  --px-surface-strong: #4a4542;
+  /* Highlighted stone */
+  --px-ink: #dcd6d0;
+  /* Old parchment text */
+  --px-ink-soft: #9a9592;
+  /* Stone grey text */
+  --px-border: #5d4037;
+  /* Dark Wood / Rusted Iron */
+  --px-border-light: #8b5a2b;
+  /* Lighter Wood */
+  --px-accent: #3498db;
+  /* Magic Blue (Mana) */
+  --px-accent2: #2ecc71;
+  /* Poison/Nature Green */
+  --px-accent3: #e74c3c;
+  /* Blood Red */
+  --px-warn: #e67e22;
+  /* Torch Fire Orange */
+  --px-danger: #c0392b;
+  /* Deep Red */
+  --px-gold: #f1c40f;
+  /* Gold Coin */
+  --px-diamond: #9b59b6;
+  /* Amethyst Purple */
+
+  --px-radius: 2px;
+  /* Sharper corners for retro feel */
+  --px-radius-sm: 0px;
+  --px-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+  --px-shadow-soft: 2px 2px 0px rgba(0, 0, 0, 0.4);
+  --px-glow: 0 0 10px rgba(241, 196, 15, 0.2);
+  /* Faint torch glow */
+
+  --px-font-ui: "Press Start 2P", "Noto Sans SC", sans-serif;
+  --px-font-pixel: "Press Start 2P", "Noto Sans SC", sans-serif;
+
+  /* 2. Global Styles */
+  color: var(--px-ink);
+  font-family: var(--px-font-ui);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: none;
+  /* Sharp pixels */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Dungeon wall background pattern */
+  background-color: var(--px-bg0);
+  background-image:
+    linear-gradient(335deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(30, 25, 20, 0.3) 23px, transparent 23px),
+    linear-gradient(335deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(30, 25, 20, 0.3) 23px, transparent 23px);
+  background-size: 58px 58px;
+  background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+  min-height: 100vh;
+}
+
+.px-app::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 80%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.px-app img,
+.px-app canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.px-app a {
+  color: var(--px-gold);
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.px-app a:hover {
+  text-decoration: underline;
+  color: var(--px-warn);
+}
+
+.px-app h1,
+.px-app h2,
+.px-app h3,
+.px-app h4,
+.px-app h5,
+.px-app h6 {
+  font-family: var(--px-font-pixel);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  color: var(--px-gold);
+  text-shadow: 3px 3px 0 #000;
+  border-bottom: 3px solid var(--px-border);
+  display: inline-block;
+}
+
+.px-app :focus-visible {
+  outline: 3px solid var(--px-accent);
+  outline-offset: 2px;
+}
+
+/* 3. Component Styles: Containers/Panels */
+.px-app #game-container,
+.px-app #instructions-content,
+.px-app #props-container,
+.px-app #settings-panel,
+.px-app .container,
+.px-app #lottery-container,
+.px-app .item,
+.px-app .panel,
+.px-app .card,
+.px-app .score-box {
+  background: var(--px-surface);
+  border: 4px solid var(--px-border);
+  border-top-color: var(--px-border-light);
+  /* 3D Bevel effect */
+  border-left-color: var(--px-border-light);
+  border-radius: var(--px-radius);
+  box-shadow: var(--px-shadow), inset 0 0 20px rgba(0, 0, 0, 0.5);
+  /* Inner Vignette */
+  padding: 1rem;
+  position: relative;
+}
+
+/* Add corner rivets */
+.px-app #game-container::after,
+.px-app .score-box::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 2px dashed rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Specific overrides */
+.px-app #instructions-content,
+.px-app #props-container {
+  border-radius: var(--px-radius-sm);
+}
+
+/* 4. Buttons */
+.px-app button,
+.px-app .px-btn,
+.px-app a.px-btn,
+.px-app input[type="button"],
+.px-app input[type="submit"] {
+  appearance: none;
+  border: 3px solid var(--px-border);
+  border-bottom-width: 6px;
+  /* Heavy bottom for 3D press feel */
+  box-shadow: var(--px-shadow);
+  background: var(--px-bg2);
+  color: var(--px-gold);
+  font-family: var(--px-font-pixel);
+  font-size: 0.9rem;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+  /* Instant snap */
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  border-radius: var(--px-radius);
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.px-app button:hover,
+.px-app .px-btn:hover,
+.px-app a.px-btn:hover {
+  background: var(--px-bg1);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--px-border);
+  text-decoration: none;
+}
+
+.px-app button:active,
+.px-app .px-btn:active,
+.px-app a.px-btn:active,
+.px-app button.active,
+.px-app .px-btn.active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--px-border);
+}
+
+/* Primary/Accent Buttons */
+.px-app button.primary,
+.px-app .px-btn.primary {
+  background: var(--px-accent);
+  color: white;
+  border-color: #2980b9;
+}
+
+.px-app button.primary:hover,
+.px-app .px-btn.primary:hover {
+  background: #2980b9;
+  color: white;
+}
+
+/* Disabled State */
+.px-app button:disabled,
+.px-app .px-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--px-bg1);
+  box-shadow: none;
+  transform: none;
+}
+
+/* 5. Inputs / Selects */
+.px-app input[type="text"],
+.px-app input[type="number"],
+.px-app input[type="password"],
+.px-app select,
+.px-app textarea {
+  border: 3px solid var(--px-border);
+  box-shadow: var(--px-shadow-soft);
+  background: var(--px-surface);
+  color: var(--px-ink);
+  font-family: var(--px-font-ui);
+  padding: 0.6rem;
+  border-radius: var(--px-radius);
+  outline: none;
+  font-size: 1rem;
+}
+
+.px-app input:focus,
+.px-app select:focus,
+.px-app textarea:focus {
+  background: var(--px-surface-strong);
+  box-shadow: var(--px-shadow);
+  border-color: var(--px-accent);
+}
+
+/* Range Slider (Retro style) */
+.px-app input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  margin: 10px 0;
+}
+
+.px-app input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 12px;
+  border: 3px solid var(--px-border);
+  background: var(--px-accent);
+  cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 2px 2px 0px var(--px-border);
+}
+
+.px-app input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: var(--px-bg1);
+  border: 3px solid var(--px-border);
+}
+
+/* Scrollbars */
+.px-app ::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.px-app ::-webkit-scrollbar-track {
+  background: var(--px-bg1);
+  border-left: 3px solid var(--px-border);
+}
+
+.px-app ::-webkit-scrollbar-thumb {
+  background: var(--px-accent);
+  border: 3px solid var(--px-border);
+}
+
+.px-app ::-webkit-scrollbar-thumb:hover {
+  background: var(--px-ink);
+}
+
+/* Game Specific Elements */
+.px-app #score-board {
+  font-family: var(--px-font-pixel);
+  font-size: 1.2rem;
+  color: var(--px-ink);
+  text-shadow: 2px 2px 0px var(--px-bg1);
+  margin-bottom: 1rem;
+}
+
+/* Modal / Dialog styles */
+.px-app .modal-content {
+  border: 3px solid var(--px-border);
+  box-shadow: 8px 8px 0px var(--px-border);
+  background: var(--px-surface);
+  border-radius: var(--px-radius);
+}
+
+/* Toast / Notification */
+.px-app .toast {
+  border: 3px solid var(--px-border);
+  box-shadow: 4px 4px 0px var(--px-border);
+  background: var(--px-surface);
+  font-family: var(--px-font-pixel);
+  color: var(--px-ink);
+  border-radius: var(--px-radius);
+}
+
+/* Tables (Leaderboard etc) */
+.px-app table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 3px solid var(--px-border);
+}
+
+.px-app th,
+.px-app td {
+  border: 2px solid var(--px-border);
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.px-app th {
+  background: var(--px-bg1);
+  font-family: var(--px-font-pixel);
+  font-size: 0.8rem;
+}
+
+.px-app tr:nth-child(even) {
+  background: var(--px-surface-strong);
+}
+
+/* ========== Page Layout ========== */
+.px-app .px-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.px-app .px-page__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.px-app .px-page__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ========== Grid Layout ========== */
+.px-app .px-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* ========== Cards ========== */
+.px-app .px-card {
+  background: var(--px-surface);
+  border: 3px solid var(--px-border);
+  border-radius: var(--px-radius);
+  box-shadow: var(--px-shadow);
+  padding: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.px-app .px-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px rgba(0, 212, 255, 0.35);
+}
+
+.px-app .px-card--locked {
+  opacity: 0.5;
+  filter: grayscale(0.4);
+}
+
+.px-app .px-card__title {
+  font-family: var(--px-font-pixel);
+  font-size: 0.85rem;
+  color: var(--px-accent);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.px-app .px-card__meta {
+  font-size: 0.7rem;
+  color: var(--px-ink-soft);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.px-app .px-card__actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ========== Chips / Tags ========== */
+.px-app .px-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  border: 2px solid var(--px-border);
+  border-radius: var(--px-radius-sm);
+  background: var(--px-bg1);
+  color: var(--px-ink-soft);
+}
+
+/* ========== Skin Swatch ========== */
+.px-app .px-swatch {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.px-app .px-swatch::before,
+.px-app .px-swatch::after {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--px-border);
+  border-radius: 4px;
+}
+
+.px-app .px-swatch::before {
+  background: var(--swatch1, #00ff00);
+}
+
+.px-app .px-swatch::after {
+  background: var(--swatch2, #32cd32);
+}
+
+/* ========== Currency Display ========== */
+.px-app .currency {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+  font-family: var(--px-font-pixel);
+  flex-wrap: wrap;
+}
+
+.px-app .currency span {
+  color: var(--px-gold);
+}
+
+/* ========== Ordered List ========== */
+.px-app .px-ol {
+  list-style: decimal inside;
+  padding: 0;
+  margin: 12px 0 0 0;
+}
+
+.px-app .px-li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--px-border);
+  font-size: 0.75rem;
+  color: var(--px-ink-soft);
+}
+
+.px-app .px-li:last-child {
+  border-bottom: none;
+}
+
+/* ========== Alternative Button Style ========== */
+.px-app .px-btn--alt {
+  background: var(--px-accent);
+  color: var(--px-bg0);
+  border-color: var(--px-accent);
+}
+
+.px-app .px-btn--alt:hover {
+  background: var(--px-accent2);
+  border-color: var(--px-accent2);
+}
+
+/* ========== Toast Notifications ========== */
+.px-app .px-toast-host {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.px-app .px-toast {
+  padding: 12px 20px;
+  background: var(--px-surface);
+  border: 3px solid var(--px-accent);
+  border-radius: var(--px-radius);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  font-size: 0.75rem;
+  color: var(--px-ink);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.px-app .px-toast--show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ========== Game HUD ========== */
+.px-app .px-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.px-app .px-hud__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--px-surface);
+  border: 2px solid var(--px-border);
+  border-radius: var(--px-radius-sm);
+  font-size: 0.7rem;
+}
+
+.px-app .px-hud__icon {
+  font-size: 1rem;
+}
+
+.px-app .px-hud__value {
+  color: var(--px-accent);
+  font-weight: bold;
+}
+
+/* ========== Buff Status Bar ========== */
+.px-app .px-buff-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.px-app .px-buff {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--px-bg1);
+  border: 2px solid var(--px-border);
+  border-radius: var(--px-radius-sm);
+  font-size: 0.65rem;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.px-app .px-buff--active {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.px-app .px-buff__icon {
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+}
+
+.px-app .px-buff__name {
+  flex: 1;
+  color: var(--px-ink-soft);
+}
+
+.px-app .px-buff__bar {
+  width: 60px;
+  height: 6px;
+  background: var(--px-bg2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.px-app .px-buff__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--px-accent), var(--px-accent2));
+  transition: width 0.1s linear;
+}
+
+.px-app .px-buff--shield .px-buff__fill {
+  background: linear-gradient(90deg, #ffd700, #f6c445);
+}
+
+.px-app .px-buff--boost .px-buff__fill {
+  background: linear-gradient(90deg, #62c6ff, #2ea7ff);
+}
+
+.px-app .px-buff--multiplier .px-buff__fill {
+  background: linear-gradient(90deg, #b388ff, #8a5bff);
+}
+
+.px-app .px-buff--magnet .px-buff__fill {
+  background: linear-gradient(90deg, #00bcd4, #62c6ff);
+}
+
+/* ========== Combo Display ========== */
+.px-app .px-combo {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--px-font-pixel);
+  font-size: 1.4rem;
+  color: var(--px-warn);
+  text-shadow:
+    0 0 10px var(--px-warn),
+    0 0 20px var(--px-warn),
+    2px 2px 0 var(--px-bg0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  transition: opacity 0.15s ease;
+}
+
+.px-app .px-combo--show {
+  opacity: 1;
+  animation: comboPopIn 0.3s ease-out;
+}
+
+@keyframes comboPopIn {
+  0% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translateX(-50%) scale(1.15);
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ========== Score Popup ========== */
+.px-app .px-score-popup {
+  position: absolute;
+  font-family: var(--px-font-pixel);
+  font-size: 0.9rem;
+  color: var(--px-accent2);
+  text-shadow: 2px 2px 0 var(--px-bg0);
+  pointer-events: none;
+  z-index: 90;
+  animation: scoreFloat 0.8s ease-out forwards;
+}
+
+@keyframes scoreFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.2);
+  }
+}
+
+/* ========== Game Canvas Glow ========== */
+.px-app #game-canvas {
+  border: 3px solid var(--px-border);
+  border-radius: var(--px-radius);
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.2),
+    inset 0 0 60px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== Game Over / Win Overlay ========== */
+.px-app .px-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(11, 14, 20, 0.92);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.px-app .px-overlay--show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.px-app .px-overlay__title {
+  font-family: var(--px-font-pixel);
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  text-shadow: 0 0 20px currentColor;
+}
+
+.px-app .px-overlay__title--win {
+  color: var(--px-accent2);
+}
+
+.px-app .px-overlay__title--lose {
+  color: var(--px-danger);
+}
+
+.px-app .px-overlay__stats {
+  font-size: 0.8rem;
+  color: var(--px-ink-soft);
+  text-align: center;
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
+.px-app .px-overlay__actions {
+  display: flex;
+  gap: 12px;
+}

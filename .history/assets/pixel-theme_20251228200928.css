@@ -1,0 +1,290 @@
+/* Light Retro Console Theme */
+.px-app {
+  /* 1. CSS Variables */
+  --px-bg0: #f0f2f5;
+  --px-bg1: #dfe6e9;
+  --px-surface: #ffffff;
+  --px-surface-strong: #f8f9fa;
+  --px-ink: #2d3436;
+  --px-ink-soft: #636e72;
+  --px-border: #2d3436;
+  --px-accent: #0984e3;
+  --px-accent2: #00b894;
+  --px-warn: #fdcb6e;
+  --px-danger: #d63031;
+
+  --px-radius: 0px;
+  --px-radius-sm: 0px;
+  --px-shadow: 4px 4px 0px #2d3436;
+  --px-shadow-soft: 2px 2px 0px #2d3436;
+
+  --px-font-ui: "Press Start 2P", "Noto Sans SC", sans-serif;
+  --px-font-pixel: "Press Start 2P", "Noto Sans SC", sans-serif;
+
+  /* 2. Global Styles */
+  color: var(--px-ink);
+  font-family: var(--px-font-ui);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+
+  /* Simple grid pattern background */
+  background-color: var(--px-bg0);
+  background-image:
+    linear-gradient(var(--px-bg1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--px-bg1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center top;
+  min-height: 100vh;
+}
+
+/* Remove the scanline overlay */
+.px-app::before {
+  display: none;
+}
+
+.px-app img,
+.px-app canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.px-app a {
+  color: var(--px-accent);
+  text-decoration: none;
+}
+
+.px-app a:hover {
+  text-decoration: underline;
+}
+
+.px-app h1,
+.px-app h2,
+.px-app h3,
+.px-app h4,
+.px-app h5,
+.px-app h6 {
+  font-family: var(--px-font-pixel);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  color: var(--px-ink);
+}
+
+.px-app :focus-visible {
+  outline: 3px solid var(--px-accent);
+  outline-offset: 2px;
+}
+
+/* 3. Component Styles: Containers/Panels */
+.px-app #game-container,
+.px-app #instructions-content,
+.px-app #props-container,
+.px-app #settings-panel,
+.px-app .container,
+.px-app #lottery-container,
+.px-app .item,
+.px-app .panel,
+.px-app .card,
+.px-app .score-box {
+  background: var(--px-surface);
+  border: 3px solid var(--px-border);
+  border-radius: var(--px-radius);
+  box-shadow: var(--px-shadow);
+  padding: 1rem;
+}
+
+/* Specific overrides */
+.px-app #instructions-content,
+.px-app #props-container {
+  border-radius: var(--px-radius-sm);
+}
+
+/* 4. Buttons */
+.px-app button,
+.px-app .px-btn,
+.px-app a.px-btn,
+.px-app input[type="button"],
+.px-app input[type="submit"] {
+  appearance: none;
+  border: 3px solid var(--px-border);
+  box-shadow: var(--px-shadow);
+  background: var(--px-surface);
+  color: var(--px-ink);
+  font-family: var(--px-font-pixel);
+  font-size: 0.9rem;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: none;
+  /* Instant snap */
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  border-radius: var(--px-radius);
+  text-decoration: none;
+}
+
+.px-app button:hover,
+.px-app .px-btn:hover,
+.px-app a.px-btn:hover {
+  background: var(--px-bg1);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--px-border);
+  text-decoration: none;
+}
+
+.px-app button:active,
+.px-app .px-btn:active,
+.px-app a.px-btn:active,
+.px-app button.active,
+.px-app .px-btn.active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--px-border);
+}
+
+/* Primary/Accent Buttons */
+.px-app button.primary,
+.px-app .px-btn.primary {
+  background: var(--px-accent);
+  color: white;
+}
+
+.px-app button.primary:hover,
+.px-app .px-btn.primary:hover {
+  background: #0a74c4;
+  color: white;
+}
+
+/* Disabled State */
+.px-app button:disabled,
+.px-app .px-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--px-bg1);
+  box-shadow: none;
+  transform: none;
+}
+
+/* 5. Inputs / Selects */
+.px-app input[type="text"],
+.px-app input[type="number"],
+.px-app input[type="password"],
+.px-app select,
+.px-app textarea {
+  border: 3px solid var(--px-border);
+  box-shadow: var(--px-shadow-soft);
+  background: var(--px-surface);
+  color: var(--px-ink);
+  font-family: var(--px-font-ui);
+  padding: 0.6rem;
+  border-radius: var(--px-radius);
+  outline: none;
+  font-size: 1rem;
+}
+
+.px-app input:focus,
+.px-app select:focus,
+.px-app textarea:focus {
+  background: var(--px-surface-strong);
+  box-shadow: var(--px-shadow);
+  border-color: var(--px-accent);
+}
+
+/* Range Slider (Retro style) */
+.px-app input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  margin: 10px 0;
+}
+
+.px-app input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 12px;
+  border: 3px solid var(--px-border);
+  background: var(--px-accent);
+  cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 2px 2px 0px var(--px-border);
+}
+
+.px-app input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: var(--px-bg1);
+  border: 3px solid var(--px-border);
+}
+
+/* Scrollbars */
+.px-app ::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.px-app ::-webkit-scrollbar-track {
+  background: var(--px-bg1);
+  border-left: 3px solid var(--px-border);
+}
+
+.px-app ::-webkit-scrollbar-thumb {
+  background: var(--px-accent);
+  border: 3px solid var(--px-border);
+}
+
+.px-app ::-webkit-scrollbar-thumb:hover {
+  background: var(--px-ink);
+}
+
+/* Game Specific Elements */
+.px-app #score-board {
+  font-family: var(--px-font-pixel);
+  font-size: 1.2rem;
+  color: var(--px-ink);
+  text-shadow: 2px 2px 0px var(--px-bg1);
+  margin-bottom: 1rem;
+}
+
+/* Modal / Dialog styles */
+.px-app .modal-content {
+  border: 3px solid var(--px-border);
+  box-shadow: 8px 8px 0px var(--px-border);
+  background: var(--px-surface);
+  border-radius: var(--px-radius);
+}
+
+/* Toast / Notification */
+.px-app .toast {
+  border: 3px solid var(--px-border);
+  box-shadow: 4px 4px 0px var(--px-border);
+  background: var(--px-surface);
+  font-family: var(--px-font-pixel);
+  color: var(--px-ink);
+  border-radius: var(--px-radius);
+}
+
+/* Tables (Leaderboard etc) */
+.px-app table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 3px solid var(--px-border);
+}
+
+.px-app th,
+.px-app td {
+  border: 2px solid var(--px-border);
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.px-app th {
+  background: var(--px-bg1);
+  font-family: var(--px-font-pixel);
+  font-size: 0.8rem;
+}
+
+.px-app tr:nth-child(even) {
+  background: var(--px-surface-strong);
+}

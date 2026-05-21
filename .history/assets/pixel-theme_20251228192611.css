@@ -1,0 +1,496 @@
+.px-app {
+  --px-bg0: #0c1326;
+  --px-bg1: #162447;
+  --px-bg2: #1f2a44;
+  --px-surface: rgba(255, 255, 255, 0.9);
+  --px-surface-strong: rgba(255, 255, 255, 0.96);
+  --px-ink: #1a2235;
+  --px-ink-soft: rgba(26, 34, 53, 0.75);
+  --px-border: #2a3553;
+  --px-border-soft: rgba(42, 53, 83, 0.35);
+  --px-accent: #2ecc71;
+  --px-accent2: #00bcd4;
+  --px-warn: #f6c445;
+  --px-danger: #ff5b6e;
+
+  --px-radius: 10px;
+  --px-radius-sm: 8px;
+  --px-shadow: 0 14px 30px rgba(5, 10, 25, 0.35);
+  --px-shadow-soft: 0 10px 22px rgba(5, 10, 25, 0.22);
+
+  --px-font-ui: "Noto Sans SC", "Microsoft YaHei UI", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  --px-font-pixel: "Press Start 2P", "Noto Sans SC", "Microsoft YaHei UI", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+
+  color: var(--px-ink);
+  font-family: var(--px-font-ui);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background:
+    radial-gradient(1200px 800px at 18% 12%, rgba(102, 191, 255, 0.18) 0%, rgba(102, 191, 255, 0) 55%),
+    radial-gradient(900px 700px at 82% 18%, rgba(246, 196, 69, 0.16) 0%, rgba(246, 196, 69, 0) 58%),
+    linear-gradient(160deg, var(--px-bg0), var(--px-bg1) 50%, var(--px-bg2));
+  min-height: 100vh;
+}
+
+.px-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+}
+
+.px-app img,
+.px-app canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.px-app a {
+  color: inherit;
+}
+
+.px-app h1,
+.px-app h2,
+.px-app h3 {
+  font-family: var(--px-font-pixel);
+  line-height: 1.3;
+}
+
+.px-app :focus-visible {
+  outline: 3px solid rgba(0, 188, 212, 0.65);
+  outline-offset: 3px;
+}
+
+/* ===== Shared “card / panel” look ===== */
+.px-app #game-container,
+.px-app #instructions-content,
+.px-app #props-container,
+.px-app #settings-panel,
+.px-app .container,
+.px-app #lottery-container,
+.px-app .item {
+  background: var(--px-surface);
+  border: 2px solid var(--px-border);
+  border-radius: var(--px-radius);
+  box-shadow: var(--px-shadow-soft);
+}
+
+.px-app #instructions-content,
+.px-app #props-container {
+  border-radius: var(--px-radius-sm);
+}
+
+/* ===== Buttons / links ===== */
+.px-app button,
+.px-app .px-btn,
+.px-app a.px-btn {
+  appearance: none;
+  border: 2px solid var(--px-border);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(46, 204, 113, 0.92), rgba(31, 160, 86, 0.92));
+  color: #0b1423;
+  font-family: var(--px-font-pixel);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow:
+    0 8px 0 rgba(5, 10, 25, 0.35),
+    0 14px 26px rgba(5, 10, 25, 0.25);
+  transform: translateY(0);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 160ms ease;
+}
+
+.px-app button:hover,
+.px-app .px-btn:hover,
+.px-app a.px-btn:hover {
+  filter: brightness(1.04) saturate(1.02);
+}
+
+.px-app button:active,
+.px-app .px-btn:active,
+.px-app a.px-btn:active {
+  transform: translateY(6px);
+  box-shadow:
+    0 2px 0 rgba(5, 10, 25, 0.35),
+    0 10px 18px rgba(5, 10, 25, 0.18);
+}
+
+.px-app .px-btn--alt,
+.px-app a.px-btn--alt,
+.px-app button.px-btn--alt {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(0, 188, 212, 0.92), rgba(0, 135, 156, 0.92));
+}
+
+.px-app button[disabled],
+.px-app .px-btn[aria-disabled="true"],
+.px-app a.px-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 8px 0 rgba(5, 10, 25, 0.18), 0 12px 20px rgba(5, 10, 25, 0.12);
+}
+
+/* ===== Inputs ===== */
+.px-app input[type="text"],
+.px-app input[type="range"],
+.px-app select {
+  font-family: var(--px-font-ui);
+}
+
+.px-app input[type="text"],
+.px-app select {
+  border: 2px solid var(--px-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--px-surface-strong);
+  box-shadow: 0 8px 18px rgba(5, 10, 25, 0.12);
+}
+
+.px-app input[type="text"]::placeholder {
+  color: rgba(26, 34, 53, 0.55);
+}
+
+.px-app label {
+  color: var(--px-ink-soft);
+  font-weight: 600;
+}
+
+/* ===== Snake layout ===== */
+.px-app #main-container {
+  width: min(1200px, calc(100vw - 32px));
+  margin: 18px auto 24px;
+  display: grid;
+  grid-template-columns: 240px 1fr 240px;
+  gap: 18px;
+  align-items: start;
+  padding: 0;
+}
+
+.px-app #left-panel,
+.px-app #right-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.px-app #game-container {
+  padding: 18px;
+}
+
+.px-app #game-container h1 {
+  margin: 4px 0 14px;
+  font-size: 20px;
+  color: #0b1423;
+}
+
+.px-app #game-canvas {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid var(--px-border);
+  border-radius: 12px;
+  background: rgba(12, 19, 38, 0.12);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.28);
+}
+
+.px-app #score-container {
+  gap: 10px;
+}
+
+.px-app .score-box {
+  background: rgba(12, 19, 38, 0.86);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(5, 10, 25, 0.22);
+}
+
+.px-app #controls {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.px-app #controls button {
+  width: 100%;
+  margin: 0;
+}
+
+.px-app #props-container {
+  padding: 14px 12px;
+}
+
+.px-app #props-container span {
+  font-family: var(--px-font-pixel);
+}
+
+.px-app #shop-container {
+  display: grid;
+  gap: 10px;
+}
+
+/* ===== Store / Lottery layout ===== */
+.px-app .container,
+.px-app #lottery-container {
+  width: min(720px, calc(100vw - 32px));
+  margin: 22px auto;
+  padding: 20px;
+  text-align: left;
+}
+
+.px-app .container h1,
+.px-app #lottery-container h2 {
+  margin: 6px 0 14px;
+}
+
+.px-app .currency {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 2px dashed rgba(42, 53, 83, 0.35);
+  border-radius: 12px;
+  background: rgba(12, 19, 38, 0.06);
+}
+
+.px-app #lottery-container {
+  text-align: center;
+}
+
+.px-app .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-color: rgba(42, 53, 83, 0.35);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.px-app .item .desc {
+  text-align: left;
+}
+
+.px-app .coming-soon {
+  color: rgba(26, 34, 53, 0.55);
+  font-style: italic;
+}
+
+.px-app .item strong {
+  font-family: var(--px-font-pixel);
+}
+
+.px-app .back-btn {
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* ===== Settings panel tweaks ===== */
+.px-app #settings-panel {
+  background: var(--px-surface-strong);
+}
+
+.px-app #audio-controls,
+.px-app #customization {
+  text-align: left;
+}
+
+.px-app #audio-controls > div {
+  display: grid;
+  gap: 10px;
+}
+
+.px-app #customization input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 980px) {
+  .px-app #main-container {
+    grid-template-columns: 1fr;
+  }
+  .px-app #left-panel,
+  .px-app #right-panel {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .px-app #right-panel {
+    order: 3;
+  }
+}
+
+@media (max-width: 640px) {
+  .px-app #left-panel,
+  .px-app #right-panel {
+    grid-template-columns: 1fr;
+  }
+  .px-app #controls {
+    grid-template-columns: 1fr;
+  }
+  .px-app button,
+  .px-app .px-btn,
+  .px-app a.px-btn {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .px-app button,
+  .px-app .px-btn,
+  .px-app a.px-btn {
+    transition: none;
+  }
+}
+
+/* ===== Generic pages (selectors / lists) ===== */
+.px-app .px-page {
+  width: min(980px, calc(100vw - 32px));
+  margin: 18px auto 28px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid var(--px-border);
+  border-radius: var(--px-radius);
+  box-shadow: var(--px-shadow);
+}
+
+.px-app .px-page__top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.px-app .px-page__top h1 {
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.px-app .px-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.px-app .px-card {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 2px solid rgba(42, 53, 83, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(5, 10, 25, 0.14);
+}
+
+.px-app .px-card--locked {
+  opacity: 0.62;
+}
+
+.px-app .px-card__title {
+  font-family: var(--px-font-pixel);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.px-app .px-card__meta {
+  color: rgba(26, 34, 53, 0.75);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.px-app .px-card__actions {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.px-app .px-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 2px solid rgba(42, 53, 83, 0.35);
+  background: rgba(12, 19, 38, 0.06);
+  font-family: var(--px-font-pixel);
+  font-size: 12px;
+}
+
+.px-app .px-swatch {
+  height: 42px;
+  border-radius: 12px;
+  border: 2px solid rgba(42, 53, 83, 0.35);
+  background: linear-gradient(90deg, var(--swatch1), var(--swatch2));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+
+.px-app .px-ol {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+.px-app .px-li {
+  padding: 6px 0;
+  color: rgba(26, 34, 53, 0.82);
+}
+
+.px-app .px-toast-host {
+  position: fixed;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: grid;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.px-app .px-toast {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(12, 19, 38, 0.86);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: var(--px-font-pixel);
+  font-size: 12px;
+  box-shadow: 0 14px 28px rgba(5, 10, 25, 0.28);
+}
+
+.px-app .px-toast--show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 980px) {
+  .px-app .px-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .px-app .px-grid {
+    grid-template-columns: 1fr;
+  }
+}
